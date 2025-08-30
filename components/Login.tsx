@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { User } from '../types';
 import { GoogleIcon } from '../constants';
 
 const UserIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -27,11 +26,10 @@ const EyeOffIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 interface LoginProps {
-    onLoginSuccess: (user: User) => void;
-    users: User[];
+    onLoginSuccess: (email: string, password: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess, users }) => {
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -43,16 +41,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, users }) => {
         setError('');
         setIsLoading(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            const user = users.find(u => u.email === email && u.password === password);
-            if (user) {
-                onLoginSuccess(user);
-            } else {
-                setError('Username atau kata sandi salah.');
-            }
-            setIsLoading(false);
-        }, 1000);
+        onLoginSuccess(email, password);
+        setIsLoading(false);
     };
 
     return (
